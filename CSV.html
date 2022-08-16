@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>CSV Export / Import</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        //FUNCTIONS
+        function readFile(e) {
+            var reder = new FileReader();
+            reder.onload = function (e) {
+                var rows = e.target.result.split('\r\n');
+                createDataList(rows);
+            }
+            reder.readAsText(e.target.files.item(0));
+        }
+
+        function createDataList(rows) {
+            $("#tblCSVData tbody").empty();
+            for (var i = 0; i < rows.length; i++) {
+                var cellList = rows[i].split(',');
+                if (cellList[0] != '')
+                    $("#tblCSVData tbody").append('<tr><td>' + cellList[0] + '</td><td>' + cellList[1] + '</td></tr>');
+            }
+        }
+        //END FUNCTIONS
+
+        //EVENTS
+        $(document).ready(function () {
+            $('#browseCSV').change(function (e) {
+                readFile(e);
+            });
+        });
+            //END EVENTS
+    </script>
+</head>
+<body>
+    <input type="file" id="browseCSV" />
+    <br />
+    <br />
+    <table id="tblCSVData" border="1">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
